@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1036611710595",
+    "firebase_url": "https://phagalleryth.firebaseio.com",
+    "project_id": "phagalleryth",
+    "storage_bucket": "phagalleryth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036611710595:android:f7a3bb0184b45f4c",
+        "android_client_info": {
+          "package_name": "th.or.tpa.chao_tpa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036611710595-bo4oedjl4jm39ua9trjb7k9am0lnhoo7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACFfrzVCRzqyXpmrpjO5I_tiOoFP-5xEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036611710595-bo4oedjl4jm39ua9trjb7k9am0lnhoo7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
