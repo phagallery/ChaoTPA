@@ -10,12 +10,24 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   //Explicit
 
+  final formKey = GlobalKey<
+      FormState>(); //เป็นการประกาศตัวแปรเพื่อเก็บค่าจาก Form ได้หลายค่า
+String nameString,emailString,passwordString;
+
   //Method
 
   Widget uploadButton() {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
-      onPressed: () {},
+      onPressed: () {
+        print('Click Upload');
+if (formKey.currentState.validate()) {
+  formKey.currentState.save();
+  print('Name= $nameString,Email=$emailString,Password=$passwordString');
+
+}
+
+      },
     );
   }
 
@@ -41,6 +53,13 @@ class _RegisterState extends State<Register> {
           color: Colors.pink,
         ), // Default Size = 24.0
       ),
+      validator: (String value){
+        if (value.isEmpty) {
+          return 'Please fill FirstName & LastName!!';
+        }
+      },onSaved: (String value){
+        nameString=value;
+      },
     );
   }
 
@@ -66,7 +85,13 @@ class _RegisterState extends State<Register> {
           size: 36.0,
           color: Colors.pink,
         ), // Default Size = 24.0
-      ),
+      ),validator: (String value){
+        if (!((value.contains('@')) && (value.contains('.')))) { //เครื่องหมาย ! คือเงื่อนไขตรงกันข้าม ในที่นี้คือ ถ้าไม่มีเครื่องหมาย @ กับ . ให้ทำอะไร
+          return 'Email Address incorrect Format!!';
+        }
+      },onSaved: (String value){
+        emailString=value;
+      },
     );
   }
 
@@ -92,27 +117,42 @@ class _RegisterState extends State<Register> {
           color: Colors.blue[300],
         ), // Default Size = 24.0
       ),
+      validator: (String value){
+        if (value.length<=5) { 
+          return 'Password Leat 6 Charactor!!';
+        }
+      },onSaved: (String value){
+        passwordString=value;
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false, //ปิดแป้นพิมพ์ไม่ให้ชน textbox
-        appBar: AppBar(
-          actions: <Widget>[uploadButton()],
-          backgroundColor: Colors.pink[200],
-          title: Text('Register'),
-        ),
-        body: Container(
-          padding: EdgeInsets.only(top: 60.0),
-          alignment: Alignment.topCenter,
-          child: Container(
-            width: 250.0,
+      resizeToAvoidBottomPadding: false, //ปิดแป้นพิมพ์ไม่ให้ชน textbox
+      appBar: AppBar(
+        actions: <Widget>[uploadButton()],
+        backgroundColor: Colors.pink[200],
+        title: Text('Register'),
+      ),
+      body: Container(
+        padding: EdgeInsets.only(top: 60.0),
+        alignment: Alignment.topCenter,
+        child: Container(
+          width: 250.0,
+          child: Form(
+            key: formKey,
             child: Column(
-              children: <Widget>[nameText(), emailnameText(), passwordText()],
+              children: <Widget>[
+                nameText(),
+                 emailnameText(), 
+                 passwordText(),
+                 ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
