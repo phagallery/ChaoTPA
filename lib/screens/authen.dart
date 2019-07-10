@@ -19,12 +19,36 @@ class _AuthenState extends State<Authen> {
 
   Widget showText() {
     return Text(
-      'Chao TPA',
+      'Pha Gallery',
       style: TextStyle(
-        fontSize: 30.0,
-        color: Colors.brown[800],
-        fontWeight: FontWeight.bold,
-        fontFamily: 'Pacifico'
+          fontSize: 30.0,
+          color: Colors.brown[800],
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Pacifico'),
+    );
+  }
+
+  Widget emailText() {
+    return Container(
+      width: 200.0,
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress, //เพิ่มตัวช่วยให้มี @
+        decoration: InputDecoration(
+            labelText: 'Email : ',
+            hintText: 'Emailyou@.com'), // insert hint ให้ผู้ใช้งานเห็น
+      ),
+    );
+  }
+
+  Widget passwordText() {
+    return Container(
+      width: 200.0,
+      child: TextFormField(
+        obscureText: true, // Set Password ให้เป็น *******
+        decoration: InputDecoration(
+          labelText: 'Password :',
+          hintText: 'More 6 Charactor',
+        ),
       ),
     );
   }
@@ -32,6 +56,7 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false, //อนุญาตให้ keyboard ทับ widget ได้
       body: Container(
         alignment: Alignment.topCenter,
         padding: EdgeInsets.only(top: 60.0),
@@ -39,6 +64,8 @@ class _AuthenState extends State<Authen> {
           children: <Widget>[
             showLogo(),
             showText(),
+            emailText(),
+            passwordText(),
           ],
         ),
       ),
