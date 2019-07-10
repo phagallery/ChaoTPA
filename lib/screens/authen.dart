@@ -36,7 +36,7 @@ class _AuthenState extends State<Authen> {
         keyboardType: TextInputType.emailAddress, //เพิ่มตัวช่วยให้มี @
         decoration: InputDecoration(
             labelText: 'Email : ',
-            hintText: 'Emailyou@.com'), // insert hint ให้ผู้ใช้งานเห็น
+            hintText: 'Emailyou@xxxx.com'), // insert hint ให้ผู้ใช้งานเห็น
       ),
     );
   }
@@ -74,7 +74,7 @@ class _AuthenState extends State<Authen> {
         // Create Route
         var registerRoute = 
         MaterialPageRoute(builder: (BuildContext context) =>Register()); // คำสั่งไปยังหน้าที่คลิก ตรงนี้คือไปหน้า Register.dart และการสื่อสารระหว่างหน้าต้องใช้คำสั่ง BuildContext context เสมอ
-                Navigator.of(context).push(registerRoute);
+                Navigator.of(context).push(registerRoute); // Link go Register Page
       },
     );
   }
