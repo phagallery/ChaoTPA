@@ -1,3 +1,4 @@
+import 'package:chao_tpa/screens/register.dart';
 import 'package:flutter/material.dart';
 
 class Authen extends StatefulWidget {
@@ -67,8 +68,14 @@ class _AuthenState extends State<Authen> {
   Widget signUpButton() {
     return RaisedButton(
       color: Colors.orange[200],
-      child: Text('Sign Out'),
-      onPressed: () {},
+      child: Text('Sign UP'),
+      onPressed: () {
+        print('You Click Sign Up');
+        // Create Route
+        var registerRoute = 
+        MaterialPageRoute(builder: (BuildContext context) =>Register()); // คำสั่งไปยังหน้าที่คลิก ตรงนี้คือไปหน้า Register.dart และการสื่อสารระหว่างหน้าต้องใช้คำสั่ง BuildContext context เสมอ
+                Navigator.of(context).push(registerRoute);
+      },
     );
   }
 
@@ -104,7 +111,8 @@ class _AuthenState extends State<Authen> {
           gradient: RadialGradient(
             colors: [Colors.white, Colors.pink[200]],
             radius: 2.0, //จำนวนวงกลมที่ต้องการให้แสดงแสงสว่าง
-            center: Alignment.topCenter, // จุดที่ให้แสงสว่างแสดง topCenter ด้านบน , Center ตรงกลาง
+            center: Alignment
+                .topCenter, // จุดที่ให้แสงสว่างแสดง topCenter ด้านบน , Center ตรงกลาง
           ), //Set สี แบบ Gradient
         ), //color: Colors.yellow,
         padding: EdgeInsets.only(top: 60.0),
