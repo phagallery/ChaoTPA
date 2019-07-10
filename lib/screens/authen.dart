@@ -30,7 +30,7 @@ class _AuthenState extends State<Authen> {
 
   Widget emailText() {
     return Container(
-      width: 200.0,
+      width: 250.0,
       child: TextFormField(
         keyboardType: TextInputType.emailAddress, //เพิ่มตัวช่วยให้มี @
         decoration: InputDecoration(
@@ -42,7 +42,7 @@ class _AuthenState extends State<Authen> {
 
   Widget passwordText() {
     return Container(
-      width: 200.0,
+      width: 250.0,
       child: TextFormField(
         obscureText: true, // Set Password ให้เป็น *******
         decoration: InputDecoration(
@@ -53,19 +53,69 @@ class _AuthenState extends State<Authen> {
     );
   }
 
+  Widget signInButton() {
+    return RaisedButton(
+      color: Colors.orange[900],
+      child: Text(
+        'Sign In',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {},
+    );
+  }
+
+  Widget signUpButton() {
+    return RaisedButton(
+      color: Colors.orange[200],
+      child: Text('Sign Out'),
+      onPressed: () {},
+    );
+  }
+
+  Widget mySizeBox() {
+    return SizedBox(
+      width: 8.0,
+    );
+  }
+
+  Widget showButton() {
+    return Container(
+      width: 250.0,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: signInButton(),
+          ),
+          mySizeBox(),
+          Expanded(
+            child: signUpButton(),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false, //อนุญาตให้ keyboard ทับ widget ได้
       body: Container(
-        alignment: Alignment.topCenter,
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            colors: [Colors.white, Colors.pink[200]],
+            radius: 2.0, //จำนวนวงกลมที่ต้องการให้แสดงแสงสว่าง
+            center: Alignment.topCenter, // จุดที่ให้แสงสว่างแสดง topCenter ด้านบน , Center ตรงกลาง
+          ), //Set สี แบบ Gradient
+        ), //color: Colors.yellow,
         padding: EdgeInsets.only(top: 60.0),
+        alignment: Alignment.topCenter,
         child: Column(
           children: <Widget>[
             showLogo(),
             showText(),
             emailText(),
             passwordText(),
+            showButton(),
           ],
         ),
       ),
