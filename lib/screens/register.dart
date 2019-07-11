@@ -1,3 +1,4 @@
+import 'package:chao_tpa/screens/my_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart'; //1.code send value to cloud
 
@@ -42,6 +43,9 @@ class _RegisterState extends State<Register> {
             email: emailString, password: passwordString)
         .then((response) {
       print('Register Success');
+      
+      setupDisplayName();
+
     }).catchError((response) {
       //กรณีมีชื่อใน database แล้ว
       print('Error=${response.toString()}');
@@ -53,13 +57,31 @@ class _RegisterState extends State<Register> {
   }
   //End Trad -code send value to cloud
 
+//6.code send value to cloud จบโค้ดนี้แล้วไปแก้ไฟล์ authen.dart
+  Future<void> setupDisplayName() async {
+    await firebaseAuth.currentUser().then((response) {
+      UserUpdateInfo userUpdateInfo = UserUpdateInfo();
+      userUpdateInfo.displayName = nameString;
+      response.updateProfile(userUpdateInfo);
+
+      //move to Page MyService
+      var myServiceRoute =
+          MaterialPageRoute(builder: (BuildContext context) => MyService());
+      Navigator.of(context)
+      .pushAndRemoveUntil(myServiceRoute,(Route<dynamic> route) => false); //การสร้างตัวแปรไปหน้าใหม่แล้วไม่ให้มีลูกศรย้อนกลับ
+    });
+  }
+
 //5.code send value to cloud
   void myAleart(String titleString, String messageString) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(titleString,style: TextStyle(color: Colors.red[300]),),
+          title: Text(
+            titleString,
+            style: TextStyle(color: Colors.red[300]),
+          ),
           content: Text(messageString),
           actions: <Widget>[
             FlatButton(

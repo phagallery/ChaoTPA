@@ -1,5 +1,7 @@
+import 'package:chao_tpa/screens/my_service.dart';
 import 'package:chao_tpa/screens/register.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; //9.code send value to cloud เสร็จจากนี้ไปที่ไฟล์ my_service.dart
 
 class Authen extends StatefulWidget {
   @override
@@ -10,6 +12,36 @@ class _AuthenState extends State<Authen> {
   // Explicit
 
   // Method
+
+  //7.code send value to cloud
+@override
+void initState(){
+  super.initState();
+  checkStatus();
+
+}
+
+ //8.code send value to cloud
+Future <void> checkStatus() async{
+
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+  if (firebaseUser !=null) {
+      moveToService();
+
+  }
+}
+// Login แล้วไปที่หน้า Service
+void moveToService(){
+  var serviceRoute = MaterialPageRoute(builder: (BuildContext context)=> MyService());
+  Navigator.of(context).pushAndRemoveUntil(serviceRoute, (Route<dynamic> route)=> false);
+
+}
+
+
+
+
+
   Widget showLogo() {
     return Container(
       width: 150.0,
@@ -36,7 +68,7 @@ class _AuthenState extends State<Authen> {
         keyboardType: TextInputType.emailAddress, //เพิ่มตัวช่วยให้มี @
         decoration: InputDecoration(
             labelText: 'Email : ',
-            hintText: 'Emailyou@xxxx.com'), // insert hint ให้ผู้ใช้งานเห็น
+            hintText: 'emailyou@xxxx.com'), // insert hint ให้ผู้ใช้งานเห็น
       ),
     );
   }
