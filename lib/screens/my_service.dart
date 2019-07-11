@@ -23,12 +23,12 @@ class _MyServiceState extends State<MyService> {
         children: <Widget>[
           Container(
             alignment: Alignment.topLeft,
-            child: Text('My Service',),
+            child: Text('My Service'),
           ),
-          Container(
+          Container(margin: EdgeInsets.only(top: 10.0), //กำหนดระยะห่างระหว่างคำว่า My Service และ 'Login by=$nameString'
             alignment: Alignment.topLeft,
             child: Text(
-              'Login by=$nameString',
+              'Login by = $nameString',
               style: TextStyle(
                   fontSize: 14.0,
                   fontStyle: FontStyle.italic,
