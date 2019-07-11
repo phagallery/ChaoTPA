@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; //1.code send value to cloud
 
 class Register extends StatefulWidget {
   //สร้าง class โดยพิมพ์ stl เลือก flutter stateful Widget
@@ -12,21 +13,63 @@ class _RegisterState extends State<Register> {
 
   final formKey = GlobalKey<
       FormState>(); //เป็นการประกาศตัวแปรเพื่อเก็บค่าจาก Form ได้หลายค่า
-String nameString,emailString,passwordString;
+  String nameString, emailString, passwordString;
+  FirebaseAuth firebaseAuth =
+      FirebaseAuth.instance; //2.code send value to cloud
 
   //Method
-
   Widget uploadButton() {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
       onPressed: () {
         print('Click Upload');
-if (formKey.currentState.validate()) {
-  formKey.currentState.save();
-  print('Name= $nameString,Email=$emailString,Password=$passwordString');
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          print(
+              'Name= $nameString,Email=$emailString,Password=$passwordString');
+          registerFirebase(); //4.code send value to cloud
+        }
+      },
+    );
+  }
 
-}
+  //3.Start Trad -code send value to cloud
+  //void ไม่มีการ return ค่ากลับ
+  //response โยนกลับมาแบบ object
+  Future<void> registerFirebase() async {
+    await firebaseAuth
+        .createUserWithEmailAndPassword(
+            email: emailString, password: passwordString)
+        .then((response) {
+      print('Register Success');
+    }).catchError((response) {
+      //กรณีมีชื่อใน database แล้ว
+      print('Error=${response.toString()}');
 
+      String title = response.code; // error ที่มาจาก programe
+      String message = response.message;
+      myAleart(title, message);
+    });
+  }
+  //End Trad -code send value to cloud
+
+//5.code send value to cloud
+  void myAleart(String titleString, String messageString) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(titleString,style: TextStyle(color: Colors.red[300]),),
+          content: Text(messageString),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
       },
     );
   }
@@ -53,12 +96,13 @@ if (formKey.currentState.validate()) {
           color: Colors.pink,
         ), // Default Size = 24.0
       ),
-      validator: (String value){
+      validator: (String value) {
         if (value.isEmpty) {
           return 'Please fill FirstName & LastName!!';
         }
-      },onSaved: (String value){
-        nameString=value;
+      },
+      onSaved: (String value) {
+        nameString = value;
       },
     );
   }
@@ -85,12 +129,15 @@ if (formKey.currentState.validate()) {
           size: 36.0,
           color: Colors.pink,
         ), // Default Size = 24.0
-      ),validator: (String value){
-        if (!((value.contains('@')) && (value.contains('.')))) { //เครื่องหมาย ! คือเงื่อนไขตรงกันข้าม ในที่นี้คือ ถ้าไม่มีเครื่องหมาย @ กับ . ให้ทำอะไร
+      ),
+      validator: (String value) {
+        if (!((value.contains('@')) && (value.contains('.')))) {
+          //เครื่องหมาย ! คือเงื่อนไขตรงกันข้าม ในที่นี้คือ ถ้าไม่มีเครื่องหมาย @ กับ . ให้ทำอะไร
           return 'Email Address incorrect Format!!';
         }
-      },onSaved: (String value){
-        emailString=value;
+      },
+      onSaved: (String value) {
+        emailString = value;
       },
     );
   }
@@ -117,12 +164,13 @@ if (formKey.currentState.validate()) {
           color: Colors.blue[300],
         ), // Default Size = 24.0
       ),
-      validator: (String value){
-        if (value.length<=5) { 
+      validator: (String value) {
+        if (value.length <= 5) {
           return 'Password Leat 6 Charactor!!';
         }
-      },onSaved: (String value){
-        passwordString=value;
+      },
+      onSaved: (String value) {
+        passwordString = value;
       },
     );
   }
@@ -146,9 +194,9 @@ if (formKey.currentState.validate()) {
             child: Column(
               children: <Widget>[
                 nameText(),
-                 emailnameText(), 
-                 passwordText(),
-                 ],
+                emailnameText(),
+                passwordText(),
+              ],
             ),
           ),
         ),

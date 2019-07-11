@@ -5,8 +5,15 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        // การแก้ Error เนื่องจากไม่รองรับ AndroidX The Gradle failure may have been because of AndroidX incompatibilities in this Flutter app.
+        //classpath 'com.android.tools.build:gradle:3.2.1' แก้เป็น 3.3.1 
+        //ไปเพิ่มโค้ดใน File : gradle.properties จำนวน 2 โค้ด
+        //android.enableJetifier=true
+        //android.useAndroidX=true
+        classpath 'com.android.tools.build:gradle:3.3.1'
         classpath 'com.google.gms:google-services:4.2.0'
+        
+
     }
 }
 
