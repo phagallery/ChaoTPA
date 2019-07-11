@@ -10,37 +10,34 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   // Explicit
+  final formKey = GlobalKey<FormState>();
+  String emailString, passwordString;
 
   // Method
 
   //7.code send value to cloud
-@override
-void initState(){
-  super.initState();
-  checkStatus();
-
-}
-
- //8.code send value to cloud
-Future <void> checkStatus() async{
-
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  FirebaseUser firebaseUser = await firebaseAuth.currentUser();
-  if (firebaseUser !=null) {
-      moveToService();
-
+  @override
+  void initState() {
+    super.initState();
+    checkStatus();
   }
-}
+
+  //8.code send value to cloud
+  Future<void> checkStatus() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    if (firebaseUser != null) {
+      moveToService();
+    }
+  }
+
 // Login แล้วไปที่หน้า Service
-void moveToService(){
-  var serviceRoute = MaterialPageRoute(builder: (BuildContext context)=> MyService());
-  Navigator.of(context).pushAndRemoveUntil(serviceRoute, (Route<dynamic> route)=> false);
-
-}
-
-
-
-
+  void moveToService() {
+    var serviceRoute =
+        MaterialPageRoute(builder: (BuildContext context) => MyService());
+    Navigator.of(context)
+        .pushAndRemoveUntil(serviceRoute, (Route<dynamic> route) => false);
+  }
 
   Widget showLogo() {
     return Container(
@@ -67,8 +64,17 @@ void moveToService(){
       child: TextFormField(
         keyboardType: TextInputType.emailAddress, //เพิ่มตัวช่วยให้มี @
         decoration: InputDecoration(
-            labelText: 'Email : ',
-            hintText: 'emailyou@xxxx.com'), // insert hint ให้ผู้ใช้งานเห็น
+          labelText: 'Email : ',
+          hintText: 'emailyou@xxxx.com', // insert hint ให้ผู้ใช้งานเห็น
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please Fill Email';
+          }
+        },
+        onSaved: (String value) {
+          emailString = value;
+        },
       ),
     );
   }
@@ -82,6 +88,14 @@ void moveToService(){
           labelText: 'Password :',
           hintText: 'More 6 Charactor',
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please Fill Password';
+          }
+        },
+        onSaved: (String value) {
+          passwordString = value;
+        },
       ),
     );
   }
@@ -93,8 +107,29 @@ void moveToService(){
         'Sign In',
         style: TextStyle(color: Colors.white),
       ),
-      onPressed: () {},
+      onPressed: () {
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save(); //บันทึกการ login เข้าระบบ
+          checkAuthen();
+        }
+      },
     );
+  }
+
+  Future<void> checkAuthen() async {
+    print('Email=$emailString,Password=$passwordString');
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth
+        .signInWithEmailAndPassword(
+            email: emailString, password: passwordString)
+        .then((resporne) {
+      moveToService(); //ถ้า username & password ถูกต้องให้ไปที่หน้า my_service.dart
+    }).catchError((respone) {
+      String messageString = respone.message;
+      print('Message=$messageString');
+      
+
+    });
   }
 
   Widget signUpButton() {
@@ -104,9 +139,10 @@ void moveToService(){
       onPressed: () {
         print('You Click Sign Up');
         // Create Route
-        var registerRoute = 
-        MaterialPageRoute(builder: (BuildContext context) =>Register()); // คำสั่งไปยังหน้าที่คลิก ตรงนี้คือไปหน้า Register.dart และการสื่อสารระหว่างหน้าต้องใช้คำสั่ง BuildContext context เสมอ
-                Navigator.of(context).push(registerRoute); // Link go Register Page
+        var registerRoute = MaterialPageRoute(
+            builder: (BuildContext context) =>
+                Register()); // คำสั่งไปยังหน้าที่คลิก ตรงนี้คือไปหน้า Register.dart และการสื่อสารระหว่างหน้าต้องใช้คำสั่ง BuildContext context เสมอ
+        Navigator.of(context).push(registerRoute); // Link go Register Page
       },
     );
   }
@@ -149,15 +185,17 @@ void moveToService(){
         ), //color: Colors.yellow,
         padding: EdgeInsets.only(top: 60.0),
         alignment: Alignment.topCenter,
-        child: Column(
-          children: <Widget>[
-            showLogo(),
-            showText(),
-            emailText(),
-            passwordText(),
-            showButton(),
-          ],
-        ),
+        child: Form(
+            key: formKey,
+            child: Column(
+              children: <Widget>[
+                showLogo(),
+                showText(),
+                emailText(),
+                passwordText(),
+                showButton(),
+              ],
+            )),
       ),
     );
   }
