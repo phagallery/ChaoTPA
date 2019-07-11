@@ -12,8 +12,21 @@ class _AuthenState extends State<Authen> {
   // Explicit
   final formKey = GlobalKey<FormState>();
   String emailString, passwordString;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Method
+
+  void mySnackBar(String messageString) {
+    SnackBar snackBar = SnackBar(
+      content: Text(messageString),
+      duration: Duration(seconds: 8),backgroundColor: Colors.pink[300], // Set เวลาให้ Message อยู่ 8 วินาที
+      action: SnackBarAction(
+        label: 'X',textColor: Colors.white, //ให้มีข้อความกดปิดได้
+        onPressed: () {},
+      ),
+    );
+    scaffoldKey.currentState.showSnackBar(snackBar);
+  }
 
   //7.code send value to cloud
   @override
@@ -127,8 +140,7 @@ class _AuthenState extends State<Authen> {
     }).catchError((respone) {
       String messageString = respone.message;
       print('Message=$messageString');
-      
-
+      mySnackBar(messageString);
     });
   }
 
@@ -173,6 +185,7 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       resizeToAvoidBottomPadding: false, //อนุญาตให้ keyboard ทับ widget ได้
       body: Container(
         decoration: BoxDecoration(
