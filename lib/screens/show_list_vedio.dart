@@ -22,7 +22,8 @@ class _ShowListVideoState extends State<ShowListVideo> {
   StreamSubscription<QuerySnapshot> subscription;
   List<DocumentSnapshot>
       snapshots; //สร้างตัวแปรเพื่อเก็บ Array ของ Vedio ที่เราจะดึงมา
-  List<PhaVideoModel> phaVideoModels=[]; //ประกาศตัวแปร phaVideoModels ให้มีค่าเท่ากับศูนย์
+  List<PhaVideoModel> phaVideoModels =
+      []; //ประกาศตัวแปร phaVideoModels ให้มีค่าเท่ากับศูนย์
 
   @override
   void initState() {
@@ -53,7 +54,8 @@ class _ShowListVideoState extends State<ShowListVideo> {
             PhaVideoModel(nameVedio, detailVedio, pathImage, pathImage);
 
         setState(() {
-         phaVideoModels.add(phaVideoModel); //คำสั่ง Refresh หน้าจอเมื่อรับค่ามาแล้ว
+          phaVideoModels
+              .add(phaVideoModel); //คำสั่ง Refresh หน้าจอเมื่อรับค่ามาแล้ว
         });
 
 //print('nameVedio=$nameVedio');
@@ -66,6 +68,52 @@ class _ShowListVideoState extends State<ShowListVideo> {
     });
   }
 
+  Widget showImage(int index) {
+    return Container(
+      margin: EdgeInsets.all(5.0),
+      height: 120.0,
+      width: 180.0,
+      child: Image.network(
+        phaVideoModels[index].pathImage,
+        fit: BoxFit
+            .contain, //ให้ขนาดวีดีโอมีขนาดพอดีกับค่า height & width ที่ตั้งไว้
+      ),
+    );
+  }
+
+  Widget showText(int index) {
+    return Container(
+      margin: EdgeInsets.all(5.0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.topLeft,
+            child: Text(
+              phaVideoModels[index].name,
+              style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.pink[200]),
+            ),
+          ),
+          Container(
+            alignment: Alignment.topLeft,
+            child: Text(
+              phaVideoModels[index].detail,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget myDivider() {
+    return Divider(
+      height: 10.0,
+      color: Colors.pink[100],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //return Text('Show List Video');
@@ -75,8 +123,19 @@ class _ShowListVideoState extends State<ShowListVideo> {
         itemCount: phaVideoModels.length,
         itemBuilder: (context, int index) {
           return Container(
-            child: Text(phaVideoModels[index].name),
-          );
+              child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  showImage(index),
+                  showText(index),
+                ],
+              ),
+              myDivider(),
+            ],
+          )
+              // child: Text(phaVideoModels[index].name),
+              );
         },
       ),
     );
