@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chao_tpa/models/pha_video_model.dart';
+import 'package:chao_tpa/screens/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -51,7 +52,7 @@ class _ShowListVideoState extends State<ShowListVideo> {
             .data['PathVedio']; //ชื่อ PathVedio ต้องมีค่าเท่ากับฟิลใน database
 
         PhaVideoModel phaVideoModel =
-            PhaVideoModel(nameVedio, detailVedio, pathImage, pathImage);
+            PhaVideoModel(nameVedio, detailVedio, pathImage, pathVideo);
 
         setState(() {
           phaVideoModels
@@ -122,20 +123,31 @@ class _ShowListVideoState extends State<ShowListVideo> {
       child: ListView.builder(
         itemCount: phaVideoModels.length,
         itemBuilder: (context, int index) {
-          return Container(
-              child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  showImage(index),
-                  showText(index),
-                ],
-              ),
-              myDivider(),
-            ],
-          )
-              // child: Text(phaVideoModels[index].name),
-              );
+          return GestureDetector(
+            child: Container(
+                child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    showImage(index),
+                    showText(index),
+                  ],
+                ),
+                myDivider(),
+              ],
+            )
+                // child: Text(phaVideoModels[index].name),
+                ),
+            onTap: () {
+              //print('index=$index');
+
+              var playROute = MaterialPageRoute(
+                  builder: (BuildContext context) => PlayVedio(
+                        phaVideoModel: phaVideoModels[index],
+                      ));
+              Navigator.of(context).push(playROute);
+            },
+          );
         },
       ),
     );
