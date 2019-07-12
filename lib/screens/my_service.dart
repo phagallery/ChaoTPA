@@ -26,7 +26,10 @@ class _MyServiceState extends State<MyService> {
             alignment: Alignment.topLeft,
             child: Text('My Service'),
           ),
-          Container(margin: EdgeInsets.only(top: 10.0), //กำหนดระยะห่างระหว่างคำว่า My Service และ 'Login by=$nameString'
+          Container(
+            margin: EdgeInsets.only(
+                top:
+                    10.0), //กำหนดระยะห่างระหว่างคำว่า My Service และ 'Login by=$nameString'
             alignment: Alignment.topLeft,
             child: Text(
               'Login by = $nameString',
@@ -97,6 +100,22 @@ class _MyServiceState extends State<MyService> {
           ),
           ListTile(
             leading: Icon(
+              Icons.android,
+              size: 36.0,
+            ),
+            title: Text(
+              'QR CODE',
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.pink[200],
+              ),
+            ),onTap: (){
+
+              print('Click QR CODE');
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.exit_to_app,
               size: 36.0,
             ),
@@ -123,9 +142,10 @@ class _MyServiceState extends State<MyService> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: showTitleAppBar(),backgroundColor: Colors.pink[300],
+        title: showTitleAppBar(),
+        backgroundColor: Colors.pink[300],
       ),
-     // body: Text('body'),
+      // body: Text('body'),
       body: ShowListVideo(),
       drawer: myDrawerMenu(),
     );
